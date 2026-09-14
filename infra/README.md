@@ -1,8 +1,7 @@
 # Infraestrutura da agenda PHP / ASP / JSP
 
 Os três aplicativos usam o mesmo `database/agenda.mdb`. Os arquivos em `php/`,
-`asp/` e `jsp/` são as versões adaptadas. A transcrição fiel do livro foi preservada
-em `originais/`, inclusive com os erros presentes nas listagens.
+`asp/` e `jsp/` são as versões com algumas correções. A transcrição fiel do livro foi preservada em `originais/`.
 
 ## Executar
 
@@ -33,7 +32,7 @@ docker compose down            # remover containers e rede; preserva o MDB local
 
 ## Access no Linux e no macOS
 
-A proposta do PDF de criar o Access usando Java aplica-se também ao Linux.
+A proposta do Livro de criar o Access usando Java aplica-se também ao Linux.
 UCanAccess é JDBC e usa Jackcess para manipular o arquivo sem o Microsoft Office.
 Instalar `mdbtools` ou `unixODBC` não cria, por si só, um MDB com CRUD completo.
 MDBTools é útil para leitura/exportação e consultas limitadas; não foi escolhido
@@ -97,25 +96,14 @@ banco no contexto de build. Um novo clone recebe a receita de criação, não os
 
 ## Escolhas de imagem e alterações
 
-- A imagem `nouphet/docker-php4` do PDF é PHP 4.4.0, mas o Docker atual rejeita seu
-  manifest schema 1. Em vez de exigir downgrade do Docker, o Dockerfile compila
-  PHP 4.4.9 do arquivo oficial do PHP Museum, com SHA-256 verificado. Compila apenas
-  o CGI e os recursos necessários. `-fcommon` e os arquivos `config.guess/sub`
-  atuais permitem usar o compilador do Debian.
-- O PDF do AxonASP mostra tags com prefixo `v`, mas a tag efetivamente disponível
-  no registro e utilizada aqui é `2.2.3`. Nenhum código do runtime AxonASP foi alterado.
 - A etapa Maven compila Java em uma imagem separada. A imagem final JSP usa
-  Alpine 3.23, somente JRE headless e os JARs necessários; Maven, JDK e compiladores
-  nativos não vão para ela. A compilação das JSP usa Jasper/ECJ.
+  Alpine 3.23, somente JRE headless e os JARs necessários; Maven, JDK e compiladores nativos não vão para ela. A compilação das JSP usa Jasper/ECJ.
 - O Tomcat moderno executa a versão **adaptada**, não reproduz exatamente o ambiente
   JSP 1.x inferido do livro. A ponte `sun.jdbc.odbc.JdbcOdbcDriver` foi substituída
   por UCanAccess.
 - As páginas mantêm os nomes dos arquivos, campos, credenciais e operações da
   agenda. Código repetido foi centralizado em `funcoes.php`, `funcoes.asp` e nas
   classes Java usadas pelas JSP. O formulário de login JSP foi corrigido.
-- As consultas usam parâmetros JDBC e os valores exibidos são escapados como HTML.
-  A exclusão usa uma confirmação e POST. A busca usa GET e pesquisa nome, email
-  ou telefone. Detalhes são exibidos como página com link de retorno.
 
 ## Fontes verificadas
 
