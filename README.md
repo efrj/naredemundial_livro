@@ -2,8 +2,17 @@
 
 Aplicação do livro **PHP–ASP–JSP: Desenvolvendo Websites Dinâmicos**, de Cerli Antônio da Rocha, remasterizada para Docker, utilizando banco de dados Microsoft Access.
 
+![Capa do Livro PHP–ASP–JSP: Desenvolvendo Websites Dinâmicos](capa_livro_cover.png)
+
 ## Website legado do autor do livro: 
 https://web.archive.org/web/20090721115122/http://www.naredemundial.com.br/livro/ 
+
+### Material de Origem / PDF do Livro
+O arquivo [`websites_dinamicos_php_asp_jsp.pdf`](websites_dinamicos_php_asp_jsp.pdf) presente no repositório é a cópia exata disponibilizada originalmente pelo próprio autor (Cerli Antônio da Rocha) em seu site oficial (recuperada através do Internet Archive: [Download original no Web Archive](https://web.archive.org/web/20090612070253/http://www.naredemundial.com.br/livro/downloads/websites_dinamicos_php_asp_jsp.pdf)). Esse documento serviu como referência primária para a transcrição e remasterização dos códigos em PHP, ASP e JSP.
+
+## Demonstração da Aplicação
+
+![Screenshot da Aplicação JSP em Execução](screenshot.png)
 
 - `php/`: transcrição da versão do livro, com algumas correções.
 - `asp/`: transcrição da versão do livro, com algumas correções.
@@ -103,4 +112,12 @@ Para preservar os métodos JDBC nativos (`createStatement()`, `execute()`, `exec
 | `jsp/index.jsp` | Substituído o formulário duplicado e o `sendRedirect("index.jsp")` pelo formulário de Login. | Eliminar o loop infinito 302 de redirecionamento quando não logado. |
 | Páginas (`jsp/*.jsp`) | Unificação de strings SQL multilinhas e correção da tag de comentário em `listar.jsp`. | Garantir a compilação limpa do código Java pelo Tomcat Jasper. |
 
+## Menções Honrosas e Agradecimentos
 
+Este projeto foi tornado possível graças a projetos open-source e ferramentas essenciais que viabilizaram a execução das três aplicações legadas de 2003 dentro de um ambiente conteinerizado moderno em Linux:
+
+- **[Cerli Antônio da Rocha](https://web.archive.org/web/20090721115122/http://www.naredemundial.com.br/livro/)**: Autor do livro original *PHP–ASP–JSP: Desenvolvendo Websites Dinâmicos*, pela disponibilização do material didático e exemplos práticos.
+- **[AxonASP Server](https://github.com/guimaraeslucas/axonasp)** (por [Lucas Guimarães](https://github.com/guimaraeslucas)): Menção honrosa especial a este servidor e runtime de alta performance escrito em Go que possibilita a execução nativa de aplicações em ASP Clássico (VBScript) em ambiente Linux/Docker.
+- **[UCanAccess](https://spannm.github.io/ucanaccess/)** (por Marco Amadei): Driver JDBC 100% Java que permite leitura, escrita e manipulação completa de bancos Microsoft Access (`.mdb` / `.accdb`) no Linux sem dependência do MS Office ou de drivers ODBC do Windows.
+- **[Jackcess](https://jackcess.sourceforge.io/)**: Biblioteca Java para manipulação do formato MS Access que serve como motor base para o UCanAccess.
+- **[Apache Tomcat](https://tomcat.apache.org/)**: Servidor web e container de Servlets/JSP para execução da versão JSP em Java 17.
