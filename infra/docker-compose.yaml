@@ -1,0 +1,43 @@
+name: paj-book
+services:
+  jsp:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.jsp
+    ports:
+      - "127.0.0.1:8083:8080"
+    volumes:
+      - ./database:/database
+      - ../jsp:/opt/agenda/webapp:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8081/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+    restart: unless-stopped
+  php:
+    platform: linux/amd64
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.php
+    ports:
+      - "127.0.0.1:8081:80"
+    volumes:
+      - ../php:/var/www/html:ro
+    depends_on:
+      jsp:
+        condition: service_healthy
+    restart: unless-stopped
+  asp:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.asp
+    ports:
+      - "127.0.0.1:8082:8801"
+    volumes:
+      - ../asp:/opt/axonasp/www:ro
+    depends_on:
+      jsp:
+        condition: service_healthy
+    restart: unless-stopped
