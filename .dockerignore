@@ -1,0 +1,9 @@
+.git
+originais
+**/*.mdb
+**/*.accdb
+**/*.ldb
+**/*.laccdb
+infra/database
+infra/java/target
+.DS_Store

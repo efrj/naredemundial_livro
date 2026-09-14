@@ -1,0 +1,9 @@
+# Banco local e arquivos de bloqueio / temporários do Access e UCanAccess.
+*.mdb
+*.accdb
+*.ldb
+*.laccdb
+infra/database/*
+!infra/database/.gitkeep
+infra/java/target/
+.DS_Store

@@ -1,9 +1,9 @@
 <!-- #include file="funcoes.asp" -->
 <%
-‘Função : Autentica o usuario
-‘Desenvolvedor : Cerli Rocha
-‘Data : 30/05/2003
-‘Atualização: 30/06/2003
+'Função : Autentica o usuario
+'Desenvolvedor : Cerli Rocha
+'Data : 30/05/2003
+'Atualização: 30/06/2003
 
 function autentica_usuario( LOGIN, PASS )
              valor = false

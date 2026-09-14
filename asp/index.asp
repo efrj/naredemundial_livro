@@ -1,9 +1,9 @@
 <!-- #include file="funcoes.asp" -->
 <%
-‘Função : Exibe a tela para login
-‘Desenvolvedor : Cerli Rocha
-‘Data : 30/05/2003
-‘Atualização: 30/06/2003
+'Função : Exibe a tela para login
+'Desenvolvedor : Cerli Rocha
+'Data : 30/05/2003
+'Atualização: 30/06/2003
 
 Session.Abandon
 %>

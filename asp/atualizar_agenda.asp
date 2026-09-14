@@ -1,26 +1,14 @@
 <!-- #include file="funcoes.asp" -->
 <%
-‘Função       : Atualizar os dados na agenda
-‘Desenvolvedor: Cerli Rocha
-‘Data        : 20/06/2003
-‘Atualização : 30/06/2003
+'Função       : Atualizar os dados na agenda
+'Desenvolvedor: Cerli Rocha
+'Data        : 20/06/2003
+'Atualização : 30/06/2003
 
 function atualizar_agenda( nome, endereco, ddd, fone, email, observacoes, id )
-              valor = true
-          sql    = "UPDATE Agenda SET NOME = '" & nome & "', ENDERECO = '" &
-endereco & "', DDD = '" & ddd & "', FONE = '" & fone & "', EMAIL = '" & email &
-"', " & _
-                       "OBSERVACOES = '" & observacoes & "' WHERE ID = " & id
-          set rs = con.execute(sql)
-
-             if rs is nothing then
-            valor = false
-            else
-              valor = true
-         end if
-
-               set rs = nothing
-               atualizar_agenda = valor
+    sql = "UPDATE Agenda SET NOME = '" & nome & "', ENDERECO = '" & endereco & "', DDD = '" & ddd & "', FONE = '" & fone & "', EMAIL = '" & email & "', OBSERVACOES = '" & observacoes & "' WHERE ID = " & id
+    con.Execute sql
+    atualizar_agenda = true
 end function
 
 'Recebendo os Dados do Formulário
@@ -33,21 +21,18 @@ email       = Request.Form("EMAIL")
 observacoes = Request.Form("OBSERVACOES")
 id          = Request.Form("ID")
 
-'Tastando se o usuario está logado
-if ( ( login <> "" )AND( NOT(isNull(login)) ) ) then
+'Testando se o usuario está logado
+if ((login <> "") AND (NOT(isNull(login)))) then
+    if (con = "") then
+        call conecta(BANCO, USUARIO, SENHA, con)
+    end if
 
-         if ( con = "" ) then
-                  call conecta( BANCO, USUARIO, SENHA, con )
-         end if
-
-       if ( atualizar_agenda( nome, endereco, ddd, fone, email, observacoes,
-id ) ) then'Executando a 'Função
-            Response.Redirect("listar.asp")'Página Principal
-                  else
-                  Response.Redirect("index.asp")'Login
-         end if
-
-         else
-         Response.Redirect("index.asp")'Login
+    if (atualizar_agenda(nome, endereco, ddd, fone, email, observacoes, id)) then
+        Response.Redirect("listar.asp")
+    else
+        Response.Redirect("index.asp")
+    end if
+else
+    Response.Redirect("index.asp")
 end if
 %>
