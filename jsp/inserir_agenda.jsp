@@ -15,15 +15,10 @@ fone, String email, String observacoes ) {
 
           Statement stmt;
 
-         try {
-            sql = "INSERT INTO Agenda( NOME, ENDERECO, DDD, FONE, EMAIL,
-OBSERVACOES ) " +
-
-
-
-                      "VALUES( '" + nome + "', '" + endereco + "', '" + ddd +
-"', '" + fone + "', '" + email + "', '" + observacoes + "' )";
-            stmt = con.createStatement ();
+          try {
+             sql = "INSERT INTO Agenda( NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES ) " +
+                       "VALUES( '" + nome + "', '" + endereco + "', '" + ddd + "', '" + fone + "', '" + email + "', '" + observacoes + "' )";
+             stmt = con.createStatement ();
             int linhas = stmt.executeUpdate(sql);
 
             if (linhas > 0) {

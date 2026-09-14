@@ -25,11 +25,7 @@ public String search( String KEY ) {
 
        //Select
        try {
-             sql = "SELECT ID, NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES,
-DATA FROM Agenda " +
-                        " WHERE (NOME LIKE '%" + KEY + "%') OR (ENDERECO LIKE '%"
-+ KEY + "%') OR (DDD LIKE '%" + KEY + "%') OR (FONE LIKE '%" + KEY + "%') OR
-(EMAIL LIKE '%" + KEY + "%')";
+             sql = "SELECT ID, NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES, DATA FROM Agenda WHERE (NOME LIKE '%" + KEY + "%') OR (ENDERECO LIKE '%" + KEY + "%') OR (DDD LIKE '%" + KEY + "%') OR (FONE LIKE '%" + KEY + "%') OR (EMAIL LIKE '%" + KEY + "%')";
              stmt = con.createStatement();
              stmt.execute(sql);
              rs = stmt.getResultSet();
@@ -42,25 +38,13 @@ DATA FROM Agenda " +
                            email       = rs.getString(6);
                            observacoes = rs.getString(7);
 
-
-
                    valor += "<tr>" +
-                                               "<td class=\"default\"><a
-href=\"editar.jsp?ID=" + id + "\">Editar</a></td>" +
-                                             "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id +
-"','Detalhes','width=350,height=200')\">" + nome + "</a></td>" +
-                                               "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id +
-"','Detalhes','width=350,height=200')\">" + email + "</a></td>" +
-                                               "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id +
-"','Detalhes','width=350,height=200')\">(" + ddd + ")" + fone + "</a></td>" +
-                                               "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('excluir.jsp?ID=" + id +
-"','Detalhes','width=1,height=1')\">Excluir</a></td>" +
+                                               "<td class=\"default\"><a href=\"editar.jsp?ID=" + id + "\">Editar</a></td>" +
+                                             "<td class=\"default\"><a href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id + "','Detalhes','width=350,height=200')\">" + nome + "</a></td>" +
+                                               "<td class=\"default\"><a href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id + "','Detalhes','width=350,height=200')\">" + email + "</a></td>" +
+                                               "<td class=\"default\"><a href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id + "','Detalhes','width=350,height=200')\">(" + ddd + ")" + fone + "</a></td>" +
+                                               "<td class=\"default\"><a href=\"#\" onClick=\"window.open('excluir.jsp?ID=" + id + "','Detalhes','width=1,height=1')\">Excluir</a></td>" +
                                          "</tr>";
-
 
             }
               stmt.close();

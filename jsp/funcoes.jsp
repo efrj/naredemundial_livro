@@ -28,16 +28,13 @@ public boolean autentica_usuario( String usuario, String senha ) {
 %>
 <%
 
-     String driverName = "sun.jdbc.odbc.JdbcOdbcDriver";
-     String serverURLBase = "jdbc:odbc:";
-     String dbName = "Agenda";
-
 //Conecta
 try {
-       Class.forName(driverName);
-       con        = DriverManager.getConnection(serverURLBase+dbName);
-      } catch (Exception e){
-
-        }
+    if (agenda.Main.store != null) {
+        con = agenda.Main.store.getJspConnection();
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
 //Fim do conecta
 %>

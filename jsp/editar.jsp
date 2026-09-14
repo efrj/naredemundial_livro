@@ -18,8 +18,7 @@ public String editar_agenda( String ID ) {
 
        //Select
        try {
-             sql = "SELECT ID, NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES,
-DATA FROM Agenda WHERE ID = " + ID;
+             sql = "SELECT ID, NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES, DATA FROM Agenda WHERE ID = " + ID;
              stmt = con.createStatement();
              stmt.execute(sql);
              rs = stmt.getResultSet();

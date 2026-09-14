@@ -1,6 +1,7 @@
 <%@ page import = "java.lang.*,java.io.*,java.util.*,java.sql.*" %>
 <%@ include file="funcoes.jsp" %>
 <%!
+/*
 Função : Lista os nomes cadastrados na agenda
 Desenvolvedor : Cerli Rocha
 Data : 30/05/2003
@@ -25,38 +26,25 @@ public String listar_agenda() {
 
        //Select
        try {
-             sql = "SELECT ID, NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES,
-DATA FROM Agenda";
+             sql = "SELECT ID, NOME, ENDERECO, DDD, FONE, EMAIL, OBSERVACOES, DATA FROM Agenda";
              stmt = con.createStatement();
              stmt.execute(sql);
              rs = stmt.getResultSet();
              while(rs.next()) {
-                           id          = rs.getString(1);
-                       nome        = rs.getString(2);
-                         endereco    = rs.getString(3) ;
-                           ddd         = rs.getString(4);
-                           fone        = rs.getString(5);
-                           email       = rs.getString(6);
-                           observacoes = rs.getString(7);
+                            id          = rs.getString(1);
+                        nome        = rs.getString(2);
+                          endereco    = rs.getString(3) ;
+                            ddd         = rs.getString(4);
+                            fone        = rs.getString(5);
+                            email       = rs.getString(6);
+                            observacoes = rs.getString(7);
 
                   valor += "<tr>" +
-                                               "<td class=\"default\"><a
-href=\"editar.jsp?ID=" + id + "\">Editar</a></td>" +
-                                             "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id +
-"','Detalhes','width=350,height=200')\">" + nome + "</a></td>" +
-                                               "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id +
-"','Detalhes','width=350,height=200')\">" + email + "</a></td>" +
-                                               "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id +
-"','Detalhes','width=350,height=200')\">(" + ddd + ")" + fone + "</a></td>" +
-
-
-
-                                               "<td class=\"default\"><a
-href=\"#\" onClick=\"window.open('excluir.jsp?ID=" + id +
-"','Detalhes','width=1,height=1')\">Excluir</a></td>" +
+                                               "<td class=\"default\"><a href=\"editar.jsp?ID=" + id + "\">Editar</a></td>" +
+                                             "<td class=\"default\"><a href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id + "','Detalhes','width=350,height=200')\">" + nome + "</a></td>" +
+                                               "<td class=\"default\"><a href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id + "','Detalhes','width=350,height=200')\">" + email + "</a></td>" +
+                                               "<td class=\"default\"><a href=\"#\" onClick=\"window.open('detalhes.jsp?ID=" + id + "','Detalhes','width=350,height=200')\">(" + ddd + ")" + fone + "</a></td>" +
+                                               "<td class=\"default\"><a href=\"#\" onClick=\"window.open('excluir.jsp?ID=" + id + "','Detalhes','width=1,height=1')\">Excluir</a></td>" +
                                          "</tr>";
 
 

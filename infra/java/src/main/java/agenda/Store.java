@@ -22,6 +22,7 @@ public final class Store implements AutoCloseable {
         boolean exists = Files.exists(path);
         Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
         connection = DriverManager.getConnection("jdbc:ucanaccess://" + path + ";newDatabaseVersion=V2000;openExclusive=true");
+        connection.setAutoCommit(true);
         if (!exists) {
             try (Statement s = connection.createStatement()) {
                 s.executeUpdate("CREATE TABLE Agenda (ID COUNTER PRIMARY KEY, NOME VARCHAR(100), ENDERECO VARCHAR(100), DDD VARCHAR(5), FONE VARCHAR(20), EMAIL VARCHAR(100), OBSERVACOES VARCHAR(255), DATA DATETIME)");
@@ -90,7 +91,20 @@ public final class Store implements AutoCloseable {
         }
         return rows;
     }
+    public synchronized Connection getJspConnection() {
+        return (Connection) java.lang.reflect.Proxy.newProxyInstance(
+            Connection.class.getClassLoader(),
+            new Class<?>[] { Connection.class },
+            (proxy, method, args) -> {
+                if ("close".equals(method.getName())) {
+                    return null;
+                }
+                return method.invoke(connection, args);
+            }
+        );
+    }
     public synchronized void close() throws Exception {
         try { connection.close(); } finally { lock.release(); lockChannel.close(); }
     }
 }
+

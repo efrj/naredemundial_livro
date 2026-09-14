@@ -79,3 +79,28 @@ Para não alterar a sintaxe e o fluxo de chamadas das telas de 2003, criamos uma
 | `asp/funcoes.asp` | Adicionadas as classes `DbConnection` e `Recordset` em VBScript puro usando `MSXML2.ServerXMLHTTP` e `MSXML2.DOMDocument`. | Permitir acesso ao Access (`.mdb`) no Linux/AxonASP via API HTTP sem driver ODBC nativo. |
 | Páginas (`asp/*.asp`) | Substituição de `Server.CreateObject("ADODB.Recordset")` por `New Recordset`, remoção de aspas curvas (`‘`) e ajuste de strings multilinha. | Manter a compatibilidade com o parser VBScript do AxonASP Server mantendo o fluxo original do livro. |
 
+## Comparação entre a aplicação `jsp/` e `originais/jsp/`
+
+### 1. O Problema de Arquitetura (Por que foi necessária a mudança?)
+- **No original (`originais/jsp/`)**: A aplicação tentava utilizar o driver de ponte ODBC histórico da Sun (`sun.jdbc.odbc.JdbcOdbcDriver` com `DriverManager.getConnection("jdbc:odbc:Agenda")`), conectando-se a um DSN ODBC configurado no Windows para o arquivo Microsoft Access (`agenda.mdb`).
+- **No Docker (Linux com OpenJDK 17 + Tomcat 9)**: O driver `sun.jdbc.odbc.JdbcOdbcDriver` foi descontinuado e removido do Java a partir do Java 8 (2014). Para permitir a manipulação direta do arquivo `.mdb` do Access sem o MS Office ou ODBC, a aplicação utiliza a biblioteca **UCanAccess** (driver JDBC baseado em Jackcess) executada no container `jsp`.
+
+### 2. O que precisou ser modificado em `infra/java/` e `jsp/funcoes.jsp`
+Para preservar os métodos JDBC nativos (`createStatement()`, `execute()`, `executeUpdate()`, `getResultSet()`) usados em todo o código de 2003:
+- **Compartilhamento da Conexão UCanAccess com Proxy**: Adicionado o método `getJspConnection()` na classe `Store.java` (`infra/java/src/main/java/agenda/Store.java`), que fornece a conexão JDBC única do UCanAccess envelopada por um `java.lang.reflect.Proxy`. Esse proxy ignora chamadas `.close()` feitas individualmente pelas páginas JSP, evitando que a conexão global com o banco seja encerrada.
+- **Obtenção da Conexão em `jsp/funcoes.jsp`**: Substituída a tentativa de carregar o driver ODBC legado pela chamada `agenda.Main.store.getJspConnection()`.
+
+### 3. O que mudou nas páginas (`index.jsp`, `listar.jsp`, `inserir_agenda.jsp`, etc.)
+- **Correção do Loop de Redirecionamento em `index.jsp`**: No original, a branch `else` (quando o usuário não estava logado) fazia `response.sendRedirect("index.jsp")`, gerando um loop infinito 302 que impedia o acesso ao site pelo navegador. O arquivo foi ajustado para renderizar a tela de login (`login.jsp`).
+- **Correção de Sintaxe de Strings Multilinha**: O compilador Jasper do Tomcat 9 exige que literals de String em blocos de código Java não contenham quebras de linha manuais sem concatenação (`+`). Ajustadas as strings de consulta SQL em `listar.jsp`, `inserir_agenda.jsp`, `editar.jsp`, `detalhes.jsp`, `atualizar_agenda.jsp` e `search.jsp`.
+- **Ajustes de Comentários de Cabeçalho**: Adicionada a marcação de abertura de comentário `/*` após `<%! ` em `listar.jsp` para evitar falha no parser Java.
+
+### Resumo
+
+| Arquivo / Componente | O que mudou em relação ao original | Motivo |
+| --- | --- | --- |
+| `infra/java/src/main/java/agenda/Store.java` e `jsp/funcoes.jsp` | Adicionado `getJspConnection()` com Proxy para interceptar `.close()` e atualizada a conexão de `jdbc:odbc:` para o UCanAccess. | Permitir acesso JDBC nativo ao Access no Java 17 / Tomcat 9 mantendo a conexão global ativa. |
+| `jsp/index.jsp` | Substituído o formulário duplicado e o `sendRedirect("index.jsp")` pelo formulário de Login. | Eliminar o loop infinito 302 de redirecionamento quando não logado. |
+| Páginas (`jsp/*.jsp`) | Unificação de strings SQL multilinhas e correção da tag de comentário em `listar.jsp`. | Garantir a compilação limpa do código Java pelo Tomcat Jasper. |
+
+

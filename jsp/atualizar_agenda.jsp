@@ -14,13 +14,9 @@ String fone, String email, String observacoes, String id ) {
 
         Statement stmt;
 
-         try {
-            sql = "UPDATE Agenda SET NOME = '" + nome + "', ENDERECO = '" +
-endereco + "', DDD = '" + ddd + "', FONE = '" + fone + "', EMAIL = '" + email +
-"', " +
-                        " OBSERVACOES = '" + observacoes + "' WHERE ID = " +
-String.valueOf(id);
-            stmt = con.createStatement ();
+          try {
+             sql = "UPDATE Agenda SET NOME = '" + nome + "', ENDERECO = '" + endereco + "', DDD = '" + ddd + "', FONE = '" + fone + "', EMAIL = '" + email + "', OBSERVACOES = '" + observacoes + "' WHERE ID = " + String.valueOf(id);
+             stmt = con.createStatement ();
             int linhas = stmt.executeUpdate(sql);
 
             if (linhas > 0) {
